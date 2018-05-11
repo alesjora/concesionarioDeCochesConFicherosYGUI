@@ -1,29 +1,27 @@
 package concesionarioDeCoches.guiPresentacion;
 
-import java.awt.Color;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import concesionarioDeCoches.capaDeNegocio.Coche;
 import concesionarioDeCoches.capaDeNegocio.Marca;
 import concesionarioDeCoches.capaDeNegocio.Modelo;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.awt.event.ItemEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import concesionarioDeCoches.capaDeNegocio.Color;
 
 public class CocheGUI extends JDialog {
 	
@@ -50,6 +48,7 @@ public class CocheGUI extends JDialog {
 	 * Create the dialog.
 	 */
 	public CocheGUI() {
+		setModal(true);
 		setResizable(false);
 		setBounds(100, 100, 339, 259);
 		getContentPane().setLayout(null);
@@ -68,11 +67,11 @@ public class CocheGUI extends JDialog {
 			public void focusLost(FocusEvent arg0) {
 				textFieldMatricula.setText(textFieldMatricula.getText().toUpperCase());
 				if(!Coche.isValida(textFieldMatricula.getText()))
-					textFieldMatricula.setForeground(Color.RED);
+					textFieldMatricula.setForeground(java.awt.Color.RED);
 			}
 			@Override
 			public void focusGained(FocusEvent e) {
-				textFieldMatricula.setForeground(Color.BLACK);
+				textFieldMatricula.setForeground(java.awt.Color.BLACK);
 			}
 		});
 		textFieldMatricula.setBounds(97, 25, 113, 20);
@@ -124,7 +123,7 @@ public class CocheGUI extends JDialog {
 			getContentPane().add(exitButton);
 			exitButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					setVisible(false);
+					dispose();
 				}
 			});
 			exitButton.setActionCommand("Cancel");
@@ -143,6 +142,17 @@ public class CocheGUI extends JDialog {
 		comboBoxMarca.setSelectedItem(null);
 		comboBoxModelo.setSelectedItem(null);
 	}
+	
+	protected Color getColor() {
+		if (radioButtonAzul.isSelected())
+			return Color.AZUL;
+		if (radioButtonPlata.isSelected())
+			return Color.PLATA;
+		if (radioButtonRojo.isSelected())
+			return Color.ROJO;
+		return null;
+	}
+	
 	public Object[] getModelos(Marca selectedItem) {
 		ArrayList<Modelo> arrayListModelos = new ArrayList<Modelo>();
 		for (Modelo modelo : Modelo.values()) {

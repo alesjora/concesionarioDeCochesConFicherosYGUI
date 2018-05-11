@@ -76,7 +76,7 @@ public class Ayuda extends JDialog {
 				JButton salirButton = new JButton("Salir");
 				salirButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setVisible(false);
+						dispose();
 					}
 				});
 				salirButton.setActionCommand("Cancel");

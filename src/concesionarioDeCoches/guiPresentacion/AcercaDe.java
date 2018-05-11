@@ -20,6 +20,7 @@ public class AcercaDe extends JDialog {
 	 * Create the dialog.
 	 */
 	public AcercaDe() {
+		setModal(true);
 		setResizable(false);
 		setTitle("Acerca de");
 		setBounds(100, 100, 450, 300);
@@ -53,7 +54,7 @@ public class AcercaDe extends JDialog {
 				JButton salirButton = new JButton("Salir");
 				salirButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setVisible(false);
+						dispose();
 					}
 				});
 				salirButton.setActionCommand("Cancel");

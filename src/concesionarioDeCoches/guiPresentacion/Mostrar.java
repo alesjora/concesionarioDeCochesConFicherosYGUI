@@ -23,29 +23,40 @@ public class Mostrar extends CocheGUI {
 	/**
 	 * Launch the application.
 	 */
-	private ListIterator<Coche> iterator = Entorno.concesionario.listIterator();
-	private Coche coche;
-	private JButton btnNext;
-	private JButton btnPrevious;
+	protected ListIterator<Coche> iterator = Entorno.concesionario.listIterator();
+	protected Coche coche;
+	protected JButton btnNext;
+	protected JButton btnPrevious;
+	protected int controlIterador=0;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Mostrar dialog = new Mostrar();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					dialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Mostrar dialog = new Mostrar();
+//					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//					dialog.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the dialog.
 	 */
 	public Mostrar() {
+		setResizable(false);
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		radioButtonPlata.setEnabled(false);
+		radioButtonRojo.setEnabled(false);
+		radioButtonAzul.setEnabled(false);
+		setResizable(true);
 		setBounds(100, 100, 349, 262);
 
 		btnNext = new JButton(">");
@@ -66,16 +77,12 @@ public class Mostrar extends CocheGUI {
 		btnPrevious.setBounds(30, 197, 47, 23);
 		getContentPane().add(btnPrevious);
 		deshabilitarComponentes();
-		coche = iterator.next();
-		mostrarCoche();
+		cocheSiguiente();
 
 	}
 
 	private void deshabilitarComponentes() {
 		textFieldMatricula.setEnabled(false);
-		radioButtonAzul.setEnabled(false);
-		radioButtonPlata.setEnabled(false);
-		radioButtonRojo.setEnabled(false);
 		comboBoxMarca.setEnabled(false);
 		comboBoxModelo.setEnabled(false);
 		okButton.setVisible(false);
@@ -83,7 +90,6 @@ public class Mostrar extends CocheGUI {
 	}
 
 	protected void mostrarCoche() {
-		
 		textFieldMatricula.setText(coche.getMatricula());
 		seleccionarColor();
 		comboBoxMarca.setSelectedItem(coche.getModelo().getMarca());
@@ -92,19 +98,14 @@ public class Mostrar extends CocheGUI {
 	}
 
 	protected void comprobarBotones() {
-		if(!iterator.hasNext()) {
-			coche = iterator.previous();
+		btnNext.setEnabled(true);
+		btnPrevious.setEnabled(true);
+		if(!iterator.hasNext()) 
 			btnNext.setEnabled(false);
-		}
-		else 
-			btnNext.setEnabled(true);
-		
-		if(!iterator.hasPrevious()) {
-			coche = iterator.next();
+			
+		if(!iterator.hasPrevious()) 
 			btnPrevious.setEnabled(false);
-		}
-		else
-			btnPrevious.setEnabled(true);
+			
 		
 	}
 
@@ -120,16 +121,33 @@ public class Mostrar extends CocheGUI {
 			radioButtonPlata.setSelected(true);
 	}
 	
-	void cocheSiguiente() {
-		if(iterator.hasNext()) {
+	protected void cocheSiguiente() {
+		if (iterator.hasNext()) {
 			coche = iterator.next();
 			mostrarCoche();
 		}
+		if(controlIterador==1) {
+			if (iterator.hasNext()) {
+				coche = iterator.next();
+				mostrarCoche();
+			}
+		}
+		controlIterador=0;
+		comprobarBotones();
 	}
-	void cocheAnterior() {
-		if(iterator.hasPrevious()) {
+
+	protected void cocheAnterior() {
+		if (iterator.hasPrevious()) {
 			coche = iterator.previous();
 			mostrarCoche();
 		}
+		if(controlIterador==0) {
+			if (iterator.hasPrevious()) {
+				coche = iterator.previous();
+				mostrarCoche();
+			}
+		}
+		controlIterador=1;
+		comprobarBotones();
 	}
 }

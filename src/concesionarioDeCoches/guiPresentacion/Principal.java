@@ -33,7 +33,7 @@ public class Principal {
 	private Baja baja = new Baja();
 	private Mostrar mostrar;
 	private BuscarPorMatricula buscarPorMatricula = new BuscarPorMatricula();
-	private BuscarPorColor buscarPorColor;
+	private MostrarPorColor mostrarPorColor;
 	private Ayuda ayuda = new Ayuda();
 	private AcercaDe acercaDe = new AcercaDe();
 	private static JFileChooser jFileChooser = new JFileChooser();
@@ -73,11 +73,11 @@ public class Principal {
 				if (respuesta == JOptionPane.YES_OPTION) {
 					guardar();
 					System.exit(0);
-				} else if(respuesta == JOptionPane.NO_OPTION)
+				} else if (respuesta == JOptionPane.NO_OPTION)
 					System.exit(0);
 				else {
-					
-				}	
+
+				}
 			}
 		});
 		frame.setTitle("Sin t\u00EDtulo");
@@ -183,13 +183,14 @@ public class Principal {
 		JMenuItem mntmMostrarConcesionario = new JMenuItem("Mostrar concesionario");
 		mntmMostrarConcesionario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!Entorno.concesionario.isEmpty()) {
+				if (!comprobarConcesionarioVacio()) {
 					mostrar = new Mostrar();
 					mostrar.setVisible(true);
 					mostrar.setModal(true);
 				} else
 					JOptionPane.showMessageDialog(frame, "El concesionario está vacío.");
 			}
+
 		});
 		mntmMostrarConcesionario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK));
 		mnCoche.add(mntmMostrarConcesionario);
@@ -202,8 +203,11 @@ public class Principal {
 				.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
 		mntmPorMatricula.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buscarPorMatricula.setVisible(true);
-				buscarPorMatricula.setModal(true);
+				if (!comprobarConcesionarioVacio()) {
+					buscarPorMatricula.setVisible(true);
+					buscarPorMatricula.setModal(true);
+				} else
+					JOptionPane.showMessageDialog(frame, "El concesionario está vacío.");
 			}
 		});
 		mnBuscar.add(mntmPorMatricula);
@@ -212,9 +216,12 @@ public class Principal {
 		mntmPorColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
 		mntmPorColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buscarPorColor = new BuscarPorColor();
-				buscarPorColor.setVisible(true);
-				buscarPorColor.setModal(true);
+				if (!comprobarConcesionarioVacio()) {
+					mostrarPorColor = new MostrarPorColor();
+					mostrarPorColor.setVisible(true);
+					mostrarPorColor.setModal(true);
+				} else
+					JOptionPane.showMessageDialog(frame, "El concesionario está vacío.");
 			}
 		});
 		mnBuscar.add(mntmPorColor);
@@ -237,7 +244,7 @@ public class Principal {
 		mntmAcerdaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				acercaDe.setVisible(true);
-				
+
 			}
 		});
 		mnAyuda.add(mntmAcerdaDe);
@@ -319,5 +326,12 @@ public class Principal {
 			}
 		}
 		frame.setTitle(jFileChooser.getName(file));
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean comprobarConcesionarioVacio() {
+		return Entorno.concesionario.isEmpty();
 	}
 }

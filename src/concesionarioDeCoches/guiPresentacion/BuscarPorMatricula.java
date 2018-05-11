@@ -13,6 +13,8 @@ import concesionarioDeCoches.capaDeNegocio.excepciones.MatriculaNoValidoExceptio
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class BuscarPorMatricula extends CocheGUI {
 
@@ -24,6 +26,12 @@ public class BuscarPorMatricula extends CocheGUI {
 	 * Create the dialog.
 	 */
 	public BuscarPorMatricula() {
+		textFieldMatricula.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				limpiarPantalla();
+			}
+		});
 		exitButton.setBounds(248, 198, 80, 23);
 		okButton.setBounds(154, 197, 84, 23);
 		okButton.addActionListener(new ActionListener() {

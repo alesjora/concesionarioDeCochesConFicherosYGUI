@@ -49,6 +49,11 @@ public class Alta extends CocheGUI {
 	 * Create the dialog.
 	 */
 	public Alta() {
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				alta();
@@ -64,15 +69,6 @@ public class Alta extends CocheGUI {
 		});
 	}
 
-	private Color getColor() {
-		if (radioButtonAzul.isSelected())
-			return Color.AZUL;
-		if (radioButtonPlata.isSelected())
-			return Color.PLATA;
-		if (radioButtonRojo.isSelected())
-			return Color.ROJO;
-		return null;
-	}
 
 	private void alta() {
 		try {
